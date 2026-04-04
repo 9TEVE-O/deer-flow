@@ -245,6 +245,16 @@ Prerequisite: complete the "Configuration" steps above first (`make config` and 
    make dev
    ```
 
+   `make dev` automatically exports the following environment variables before starting services so that external tools (e.g. the `claude-to-deerflow` skill) can locate DeerFlow without extra configuration:
+
+   | Variable | Default value | Description |
+   |----------|---------------|-------------|
+   | `DEERFLOW_URL` | `http://localhost:2026` | Unified nginx proxy base URL |
+   | `DEERFLOW_GATEWAY_URL` | `http://localhost:2026` | FastAPI Gateway API endpoint |
+   | `DEERFLOW_LANGGRAPH_URL` | `http://localhost:2026/api/langgraph` | LangGraph Server API endpoint |
+
+   Override any of them in your shell before calling `make dev` if you need a non-default endpoint.
+
 5. **Access**: http://localhost:2026
 
 ### Advanced

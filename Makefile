@@ -89,8 +89,21 @@ setup-sandbox:
 	fi
 
 # Start all services in development mode (with hot-reloading)
+# Exports service endpoint variables consumed by external tools (e.g. claude-to-deerflow skill):
+#   DEERFLOW_URL             – unified nginx proxy   (http://localhost:2026)
+#   DEERFLOW_GATEWAY_URL     – FastAPI gateway        (http://localhost:2026)
+#   DEERFLOW_LANGGRAPH_URL   – LangGraph API          (http://localhost:2026/api/langgraph)
+#
+# Sandbox container mounts (inside the container):
+#   /mnt/user-data/
+#   ├── uploads/          ← your files
+#   ├── workspace/        ← agents' working directory
+#   └── outputs/          ← final deliverables
 dev:
-	@./scripts/serve.sh --dev
+	@export DEERFLOW_URL=http://localhost:2026 \
+		DEERFLOW_GATEWAY_URL=http://localhost:2026 \
+		DEERFLOW_LANGGRAPH_URL=http://localhost:2026/api/langgraph; \
+	./scripts/serve.sh --dev
 
 # Start all services in production mode (with optimizations)
 start:
